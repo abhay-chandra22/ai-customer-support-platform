@@ -1,7 +1,6 @@
 package com.example.supportplatform.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.example.supportplatform.repository.TicketRepository;
@@ -24,7 +23,10 @@ public class TicketService {
         return ticketRepository.findAll();
     }
 
-    public Optional<Ticket> getTicketById(Long id){
-        return ticketRepository.findById(id);
+    public Ticket getTicketById(Long id){
+        return ticketRepository.findById(id).
+                orElseThrow(() -> new RuntimeException(
+                        "Ticket not found with id : " + id
+                ));
     }
 }

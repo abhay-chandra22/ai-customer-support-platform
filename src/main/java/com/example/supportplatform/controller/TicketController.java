@@ -40,9 +40,8 @@ public class TicketController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable Long id){
-        Optional<Ticket> ticket = ticketService.getTicketById(id);
+        Ticket ticket = ticketService.getTicketById(id);
 
-        return ticket.map(ResponseEntity::ok).
-                orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(ticket);
     }
 }
