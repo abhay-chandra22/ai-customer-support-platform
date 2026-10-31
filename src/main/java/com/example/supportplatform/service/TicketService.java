@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.example.supportplatform.repository.TicketRepository;
 import com.example.supportplatform.entity.Ticket;
+import com.example.supportplatform.exception.TicketNotFoundException;
 
 @Service
 public class TicketService {
@@ -25,7 +26,7 @@ public class TicketService {
 
     public Ticket getTicketById(Long id){
         return ticketRepository.findById(id).
-                orElseThrow(() -> new RuntimeException(
+                orElseThrow(() -> new TicketNotFoundException(
                         "Ticket not found with id : " + id
                 ));
     }

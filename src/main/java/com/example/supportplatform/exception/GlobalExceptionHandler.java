@@ -1,4 +1,6 @@
 package com.example.supportplatform.exception;
+import com.example.supportplatform.entity.Ticket;
+import com.example.supportplatform.exception.TicketNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,5 +23,17 @@ public class GlobalExceptionHandler {
         ));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTicketNotFound(TicketNotFoundException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorResponse);
     }
 }
