@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -51,5 +52,11 @@ public class TicketController {
     public ResponseEntity<Ticket> updateTicketStatus(@PathVariable Long id, @RequestBody TicketStatusUpdateRequest request){
         Ticket updatedTicket = ticketService.updateTicketStatus(id , request.getStatus());
         return ResponseEntity.ok(updatedTicket);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTicketById(@PathVariable Long id){
+        ticketService.deleteTicketById(id);
     }
 }
