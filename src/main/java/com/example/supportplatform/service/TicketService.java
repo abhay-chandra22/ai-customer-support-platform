@@ -7,6 +7,8 @@ import com.example.supportplatform.repository.TicketRepository;
 import com.example.supportplatform.entity.Ticket;
 import com.example.supportplatform.exception.TicketNotFoundException;
 import com.example.supportplatform.entity.TicketStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TicketService {
@@ -21,8 +23,8 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public List<Ticket> getAllTickets(){
-        return ticketRepository.findAll();
+    public Page<Ticket> getAllTickets(Pageable pageable){
+        return ticketRepository.findAll(pageable);
     }
 
     public Ticket getTicketById(Long id){
