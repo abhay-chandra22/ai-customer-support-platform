@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.supportplatform.repository.TicketRepository;
 import com.example.supportplatform.entity.Ticket;
 import com.example.supportplatform.exception.TicketNotFoundException;
+import com.example.supportplatform.entity.TicketStatus;
 
 @Service
 public class TicketService {
@@ -31,7 +32,7 @@ public class TicketService {
                 ));
     }
 
-    public Ticket updateTicketStatus(Long id , String status){
+    public Ticket updateTicketStatus(Long id , TicketStatus status){
         Ticket ticket = getTicketById(id);
         ticket.setStatus(status);
         return ticketRepository.save(ticket);

@@ -1,4 +1,5 @@
 package com.example.supportplatform.entity;
+import com.example.supportplatform.entity.TicketStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -11,6 +12,8 @@ import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 @Table(name = "tickets")
@@ -39,8 +42,9 @@ public class Ticket {
     @Column(nullable = false , length = 2000)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status = "OPEN";
+    private TicketStatus status = TicketStatus.OPEN;
 
     @Column(nullable = false , updatable = false)
     private LocalDateTime createdAt;
@@ -93,11 +97,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getStatus(){
+    public TicketStatus getStatus(){
         return status;
     }
 
-    public void setStatus(String status){
+    public void setStatus(TicketStatus status){
         this.status = status;
     }
 

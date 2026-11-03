@@ -1,18 +1,19 @@
 package com.example.supportplatform.dto;
+import com.example.supportplatform.entity.TicketStatus;
 
 public class TicketStatusUpdateRequest {
 
-    private String status;
+    private TicketStatus status;
 
     public TicketStatusUpdateRequest(){
 
     }
 
-    public String getStatus() {
+    public TicketStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TicketStatus status) {
         this.status = status;
     }
 }
