@@ -30,4 +30,10 @@ public class TicketService {
                         "Ticket not found with id : " + id
                 ));
     }
+
+    public Ticket updateTicketStatus(Long id , String status){
+        Ticket ticket = getTicketById(id);
+        ticket.setStatus(status);
+        return ticketRepository.save(ticket);
+    }
 }

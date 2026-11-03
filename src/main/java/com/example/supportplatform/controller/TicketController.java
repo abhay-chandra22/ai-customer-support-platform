@@ -1,6 +1,7 @@
 package com.example.supportplatform.controller;
 import com.example.supportplatform.service.TicketService;
 import com.example.supportplatform.entity.Ticket;
+import com.example.supportplatform.dto.TicketStatusUpdateRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -43,5 +45,11 @@ public class TicketController {
         Ticket ticket = ticketService.getTicketById(id);
 
         return ResponseEntity.ok(ticket);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Ticket> updateTicketStatus(@PathVariable Long id, @RequestBody TicketStatusUpdateRequest request){
+        Ticket updatedTicket = ticketService.updateTicketStatus(id , request.getStatus());
+        return ResponseEntity.ok(updatedTicket);
     }
 }
