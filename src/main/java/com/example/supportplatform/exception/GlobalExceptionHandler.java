@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import com.example.supportplatform.exception.InvalidTicketStatusTransitionException;
+import com.example.supportplatform.exception.ErrorResponse;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -35,5 +38,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidTicketStatusTransitionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTicketStatusTransition(InvalidTicketStatusTransitionException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage()
+        );
+
+        return new ResponseEntity<>(
+                errorResponse,
+                HttpStatus.BAD_REQUEST
+        );
     }
 }
