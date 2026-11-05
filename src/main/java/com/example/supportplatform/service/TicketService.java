@@ -52,6 +52,14 @@ public class TicketService {
         return ticketRepository.findByStatus(ticketStatus , pageable);
     }
 
+    public Page<Ticket> searchTicketByEmail(String email , Pageable pageable){
+        return ticketRepository.findByEmailContainingIgnoreCase(email , pageable);
+    }
+
+    public Page<Ticket> searchTicketBySubject(String subject , Pageable pageable){
+        return ticketRepository.findBySubjectContainingIgnoreCase(subject , pageable);
+    }
+
     private void validateStatusTransition(TicketStatus currentStatus , TicketStatus newStatus){
         boolean isValidTransition = switch(currentStatus){
             case OPEN -> newStatus == TicketStatus.IN_PROGRESS || newStatus == TicketStatus.CLOSED;

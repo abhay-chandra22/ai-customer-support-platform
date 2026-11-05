@@ -8,5 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface TicketRepository extends JpaRepository<Ticket,Long>{
+
     Page<Ticket> findByStatus(TicketStatus status , Pageable pageable);
+
+    Page<Ticket> findByEmailContainingIgnoreCase(String email , Pageable pageable);
+
+    Page<Ticket> findBySubjectContainingIgnoreCase(String subject , Pageable pageable);
 }
