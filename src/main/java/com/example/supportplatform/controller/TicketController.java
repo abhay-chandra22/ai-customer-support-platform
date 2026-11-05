@@ -1,4 +1,5 @@
 package com.example.supportplatform.controller;
+import com.example.supportplatform.entity.TicketStatus;
 import com.example.supportplatform.service.TicketService;
 import com.example.supportplatform.entity.Ticket;
 import com.example.supportplatform.dto.TicketStatusUpdateRequest;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -41,8 +43,11 @@ public class TicketController {
     }
 
     @GetMapping
-    public Page<Ticket> getAllTickets(@PageableDefault(size = 10 , sort = "createdAt" , direction = Sort.Direction.DESC) Pageable pageable){
-        return ticketService.getAllTickets(pageable);
+    public Page<Ticket> getAllTickets(@RequestParam(required = false) TicketStatus status , @PageableDefault(size = 10 , sort = "createdAt" , direction = Sort.Direction.DESC) Pageable pageable){
+        if(status == null){
+            return ticketService.getAllTickets(pageable);
+        }
+        return ticketService.getTicketByStatus(status , pageable);
     }
 
     @GetMapping("/{id}")

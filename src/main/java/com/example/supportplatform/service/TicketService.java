@@ -48,6 +48,10 @@ public class TicketService {
         ticketRepository.delete(ticket);
     }
 
+    public Page<Ticket> getTicketByStatus(TicketStatus ticketStatus , Pageable pageable){
+        return ticketRepository.findByStatus(ticketStatus , pageable);
+    }
+
     private void validateStatusTransition(TicketStatus currentStatus , TicketStatus newStatus){
         boolean isValidTransition = switch(currentStatus){
             case OPEN -> newStatus == TicketStatus.IN_PROGRESS || newStatus == TicketStatus.CLOSED;
