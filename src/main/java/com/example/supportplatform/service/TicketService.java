@@ -3,6 +3,7 @@ package com.example.supportplatform.service;
 import java.util.List;
 
 import com.example.supportplatform.exception.InvalidTicketStatusTransitionException;
+import com.example.supportplatform.specification.TicketSpecification;
 import org.springframework.stereotype.Service;
 import com.example.supportplatform.repository.TicketRepository;
 import com.example.supportplatform.entity.Ticket;
@@ -10,6 +11,8 @@ import com.example.supportplatform.exception.TicketNotFoundException;
 import com.example.supportplatform.entity.TicketStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 
 @Service
 public class TicketService {
@@ -58,6 +61,24 @@ public class TicketService {
 
     public Page<Ticket> searchTicketBySubject(String subject , Pageable pageable){
         return ticketRepository.findBySubjectContainingIgnoreCase(subject , pageable);
+    }
+
+    public Page<Ticket> searchTickets(TicketStatus status , String email , String subject , Pageable pageable){
+        Specification<Ticket>  specification = (root , query , criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        if(status != null){
+            specification = specification.and(TicketSpecification.hasStatus(status));
+        }
+
+        if(email != null && !email.isBlank()){
+            specification = specification.and(TicketSpecification.hasEmail(email));
+        }
+
+        if(subject != null && !subject.isBlank()){
+            specification = specification.and(TicketSpecification.hasSubject(subject));
+        }
+
+        return ticketRepository.findAll(specification , pageable);
     }
 
     private void validateStatusTransition(TicketStatus currentStatus , TicketStatus newStatus){

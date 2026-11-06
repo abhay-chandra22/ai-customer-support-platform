@@ -45,16 +45,7 @@ public class TicketController {
     @GetMapping
     public Page<Ticket> getAllTickets(@RequestParam(required = false) TicketStatus status , @RequestParam(required = false) String email , @RequestParam(required = false) String subject , @PageableDefault(size = 10 , sort = "createdAt" , direction = Sort.Direction.DESC) Pageable pageable){
 
-        if(email != null && !email.isBlank()){
-            return ticketService.searchTicketByEmail(email , pageable);
-        }
-        if(subject != null && !subject.isBlank()){
-            return ticketService.searchTicketBySubject(subject , pageable);
-        }
-        if(status != null){
-            return ticketService.getTicketByStatus(status , pageable);
-        }
-        return ticketService.getAllTickets(pageable);
+        return ticketService.searchTickets(status , email , subject , pageable);
     }
 
     @GetMapping("/{id}")
